@@ -29,14 +29,6 @@ The `library` module contains the embedded Python/yt-dlp process runtime. It is 
 
 ## Build environment
 
-Gradle is fixed to RV2IDE's OpenJDK 21 installation:
-
-```properties
-org.gradle.java.home=/data/data/com.tom.rv2ide/files/usr/lib/jvm/java-21-openjdk/
-org.gradle.java.installations.auto-detect=false
-org.gradle.java.installations.auto-download=false
-```
-
 Java and Kotlin bytecode target Java 17, which is supported while Gradle runs on JDK 21.
 
 The project uses only Google Maven, Maven Central and the Gradle Plugin Portal. It has no `buildSrc`, custom convention plugin, publishing plugin, JitPack, jcenter, test dependencies, instrumentation runner or `projectdir/scripts/*` requirement.
