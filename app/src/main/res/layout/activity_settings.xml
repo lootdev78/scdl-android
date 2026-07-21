@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="SCDL Settings"
+            android:textStyle="bold"
+            android:textSize="24sp" />
+
+        <TextView
+            android:id="@+id/settingsStatus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="8dp"
+            android:paddingBottom="12dp"
+            android:text="Loading runtime..." />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Base download directory"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/basePathInput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:fontFamily="monospace" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/browsePathButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Choose folder" />
+
+            <Button
+                android:id="@+id/resetPathButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Default SCDL folder" />
+        </LinearLayout>
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/separateFoldersSwitch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Route downloads to Tracks, Playlists, and Users folders"
+            android:checked="true" />
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/aria2cSwitch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Use bundled aria2c when available" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            android:background="#555555" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="SoundCloud credentials"
+            android:textStyle="bold"
+            android:textSize="18sp" />
+
+        <EditText
+            android:id="@+id/clientIdInput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="client_id"
+            android:singleLine="true"
+            android:fontFamily="monospace" />
+
+        <EditText
+            android:id="@+id/authTokenInput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="auth_token"
+            android:singleLine="true"
+            android:inputType="textVisiblePassword"
+            android:fontFamily="monospace" />
+
+        <Button
+            android:id="@+id/soundCloudLoginButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Open SoundCloud login and capture credentials" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="Track name format" />
+
+        <EditText
+            android:id="@+id/nameFormatInput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="monospace"
+            android:singleLine="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Playlist name format" />
+
+        <EditText
+            android:id="@+id/playlistNameFormatInput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="monospace"
+            android:singleLine="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Advanced scdl.cfg editor"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/rawConfigInput"
+            android:layout_width="match_parent"
+            android:layout_height="260dp"
+            android:gravity="top|start"
+            android:fontFamily="monospace"
+            android:inputType="textMultiLine|textNoSuggestions"
+            android:scrollbars="vertical" />
+
+        <Button
+            android:id="@+id/saveSettingsButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="Save settings and scdl.cfg" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            android:background="#555555" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Runtime updates"
+            android:textStyle="bold"
+            android:textSize="18sp" />
+
+        <Button
+            android:id="@+id/updateYtDlpButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Update yt-dlp" />
+
+        <Button
+            android:id="@+id/updateScdlButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Update SCDL from PyPI" />
+
+        <Button
+            android:id="@+id/closeSettingsButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Close" />
+    </LinearLayout>
+</ScrollView>

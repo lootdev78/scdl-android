@@ -1,13 +1,18 @@
-include(":common", ":app", ":library", ":ffmpeg", ":aria2c")
+pluginManagement {
+    repositories {
+        google()
+        mavenCentral()
+        gradlePluginPortal()
+    }
+}
 
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
         google()
         mavenCentral()
-        jcenter()
-        // e.g this is how you would add jitpack
-        maven("https://jitpack.io")
-        // Add any repositories you would be adding to all projects here
     }
 }
+
+rootProject.name = "SCDL-Android"
+include(":app", ":common", ":library", ":ffmpeg", ":aria2c", ":scdl")

@@ -1,44 +1,47 @@
 plugins {
-    id("com.yausername.youtubedl_android")
-    id("signing")
     id("com.android.library")
-    id("maven-publish")
     id("org.jetbrains.kotlin.android")
 }
 
 android {
-    namespace = "com.yausername.youtubedl_common"
+    namespace = "io.github.lootdev.scdl.common"
     compileSdk = 34
 
     defaultConfig {
         minSdk = 24
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        ndk {
+            abiFilters.clear()
+            abiFilters += "arm64-v8a"
+        }
     }
 
     buildTypes {
         release {
             isMinifyEnabled = false
+
             proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
             )
         }
     }
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+    }
 }
 
-configurePublishing {
-    artifactId = project.name
-    isPublished = true
+kotlin {
+    compilerOptions {
+        jvmTarget.set(
+            org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17
+        )
+    }
 }
 
 dependencies {
-    implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
-
-    implementation("androidx.appcompat:appcompat:${rootProject.extra["appCompatVer"]}")
-    implementation("androidx.core:core-ktx:${rootProject.extra["coreKtxVer"]}")
-    testImplementation("junit:junit:${rootProject.extra["junitVer"]}")
-    androidTestImplementation("androidx.test.ext:junit:${rootProject.extra["androidJunitVer"]}")
-    androidTestImplementation("androidx.test.espresso:espresso-core:${rootProject.extra["espressoVer"]}")
-
-    implementation("commons-io:commons-io:${rootProject.extra["commonsIoVer"]}")
-    implementation("org.apache.commons:commons-compress:${rootProject.extra["commonsCompressVer"]}")
+    implementation("commons-io:commons-io:2.18.0")
+    implementation("org.apache.commons:commons-compress:1.27.1")
 }

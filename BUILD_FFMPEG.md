@@ -1,41 +1,31 @@
+# FFmpeg runtime for arm64-v8a
 
-## FFmpeg for Android
+This project supports only `arm64-v8a`. Build the Termux FFmpeg package with the `aarch64` target outside this project:
 
-FFmpeg can be built for android using the termux ffmpeg package.
+```bash
+export TERMUX_ARCH=aarch64
+export TERMUX_PREFIX=/data/scdl-android/usr
+export TERMUX_ANDROID_HOME=/data/scdl-android/home
+./build-package.sh ffmpeg
+```
 
-Prerequisites : git, docker
+Extract FFmpeg and its runtime dependency packages into one staging directory. Development and static-only packages are not required at runtime.
 
-    git clone git@github.com:termux/termux-packages.git
-    cd termux-packages
-    
-create a file `build-ffmpeg.sh` with below content
+```bash
+mkdir -p /tmp/scdl-ffmpeg-arm64
+for package in debs/*.deb; do
+    dpkg-deb -x "$package" /tmp/scdl-ffmpeg-arm64
+done
 
-    #!/bin/bash
-    # use i686 for x86
-    export TERMUX_ARCH=arm
-    export TERMUX_PREFIX=/data/youtubedl-android/usr
-    export TERMUX_ANDROID_HOME=/data/youtubedl-android/home
-    ./build-package.sh ffmpeg
-    
-Make file executable
+cd /tmp/scdl-ffmpeg-arm64/data/scdl-android
+zip --symlinks -r /tmp/libffmpeg.zip.so usr/lib
+```
 
-    chmod +x ./build-ffmpeg.sh
-    
-Build Package
+Restore the executable and runtime archive here:
 
-    ./scripts/run-docker.sh ./clean.sh
-    ./scripts/run-docker.sh ./build-ffmpeg.sh
-    
-This will create several `.deb` files in `debs/` directory.
-`debs/*dev*.deb` debs can be safely removed as we don't need them.
-`debs/*static*.deb` debs can be safely removed as we don't need them.
-`libicu_66.1-1_arm.deb` can be removed (?)
+```text
+ffmpeg/src/main/jniLibs/arm64-v8a/libffmpeg.so
+ffmpeg/src/main/jniLibs/arm64-v8a/libffmpeg.zip.so
+```
 
-
-The ffmpeg zip archive as used in youtubedl-android can be created using the following commands.
-
-    cd debs
-    find . -type f -exec dpkg-deb -xv {} . \;
-    cd data/youtubedl-android
-    zip --symlinks -r /tmp/ffmpeg_arm.zip usr/lib
-    
+Place any loader-level shared libraries needed before extraction beside them in the same `arm64-v8a` directory. SCDL passes the extracted FFmpeg executable path to yt-dlp automatically.

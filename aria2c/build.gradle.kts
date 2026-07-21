@@ -1,47 +1,53 @@
 plugins {
-    id("com.yausername.youtubedl_android")
-    id("signing")
     id("com.android.library")
-    id("maven-publish")
     id("org.jetbrains.kotlin.android")
 }
 
 android {
-    namespace = "com.yausername.aria2c"
+    namespace = "io.github.lootdev.scdl.aria2c"
     compileSdk = 34
 
     defaultConfig {
         minSdk = 24
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        ndk {
+            abiFilters.clear()
+            abiFilters += "arm64-v8a"
+        }
     }
 
     buildTypes {
         release {
             isMinifyEnabled = false
+
             proguardFiles(
-                getDefaultProguardFile("proguard-android.txt"),
+                getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
         }
     }
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+    }
+
+    packaging {
+        jniLibs.useLegacyPackaging = true
+    }
 }
 
-configurePublishing {
-    artifactId = project.name
-    isPublished = true
+kotlin {
+    compilerOptions {
+        jvmTarget.set(
+            org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17
+        )
+    }
 }
 
 dependencies {
-    implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
-
     implementation(project(":common"))
-    implementation("androidx.core:core-ktx:${rootProject.extra["coreKtxVer"]}")
     compileOnly(project(":library"))
 
-    implementation("androidx.appcompat:appcompat:${rootProject.extra["appCompatVer"]}")
-    testImplementation("junit:junit:${rootProject.extra["junitVer"]}")
-    androidTestImplementation("androidx.test.ext:junit:${rootProject.extra["androidJunitVer"]}")
-    androidTestImplementation("androidx.test.espresso:espresso-core:${rootProject.extra["espressoVer"]}")
-
-    implementation("commons-io:commons-io:${rootProject.extra["commonsIoVer"]}")
+    implementation("commons-io:commons-io:2.18.0")
 }

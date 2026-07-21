@@ -1,6 +1,6 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="terminal_background">#101214</color>
+    <color name="terminal_text">#D7FFD9</color>
+    <color name="terminal_prompt">#70E000</color>
+    <color name="terminal_panel">#1B1E21</color>
 </resources>

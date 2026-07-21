@@ -1,0 +1,1 @@
+-keep class io.github.lootdev.scdl.core.** { *; }

@@ -1,49 +1,54 @@
 plugins {
-    id("com.yausername.youtubedl_android")
-    id("signing")
     id("com.android.library")
-    id("maven-publish")
     id("org.jetbrains.kotlin.android")
 }
 
 android {
-    namespace = "com.yausername.youtubedl_android"
+    namespace = "io.github.lootdev.scdl.runtime"
     compileSdk = 34
 
     defaultConfig {
         minSdk = 24
 
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        ndk {
+            abiFilters.clear()
+            abiFilters += "arm64-v8a"
+        }
     }
 
     buildTypes {
         release {
             isMinifyEnabled = false
+
             proguardFiles(
-                getDefaultProguardFile("proguard-android.txt"),
+                getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
         }
     }
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+    }
+
+    packaging {
+        jniLibs.useLegacyPackaging = true
+    }
 }
 
-configurePublishing {
-    artifactId = project.name
-    isPublished = true
+kotlin {
+    compilerOptions {
+        jvmTarget.set(
+            org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17
+        )
+    }
 }
 
 dependencies {
-    implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
+    api(project(":common"))
 
-    implementation(project(":common"))
-
-    implementation("androidx.appcompat:appcompat:${rootProject.extra["appCompatVer"]}")
-    implementation("androidx.core:core-ktx:${rootProject.extra["coreKtxVer"]}")
-    testImplementation("junit:junit:${rootProject.extra["junitVer"]}")
-    androidTestImplementation("androidx.test.ext:junit:${rootProject.extra["androidJunitVer"]}")
-    androidTestImplementation("androidx.test.espresso:espresso-core:${rootProject.extra["espressoVer"]}")
-
-    implementation("com.fasterxml.jackson.core:jackson-databind:${rootProject.extra["jacksonVer"]}")
-    implementation("com.fasterxml.jackson.core:jackson-annotations:${rootProject.extra["jacksonVer"]}")
-    implementation("commons-io:commons-io:${rootProject.extra["commonsIoVer"]}")
+    implementation("com.fasterxml.jackson.core:jackson-databind:2.18.2")
+    implementation("com.fasterxml.jackson.core:jackson-annotations:2.18.2")
+    implementation("commons-io:commons-io:2.18.0")
 }

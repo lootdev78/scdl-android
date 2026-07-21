@@ -4,68 +4,70 @@ plugins {
 }
 
 android {
-    namespace = "com.yausername.youtubedl_android_example"
+    namespace = "io.github.lootdev.scdl"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.yausername.youtubedl_android_example"
+        applicationId = "io.github.lootdev.scdl"
         minSdk = 24
-        targetSdk = 34
-        versionName = rootProject.ext["versionName"] as String
-        versionCode = rootProject.ext["versionCode"] as Int
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        targetSdk = 28
+        versionCode = 1
+        versionName = "1.0.0"
+    }
 
-        ndk {
-            abiFilters.add("x86")
-            abiFilters.add("x86_64")
-            abiFilters.add("armeabi-v7a")
-            abiFilters.add("arm64-v8a")
+    splits {
+        abi {
+            isEnable = true
+            reset()
+            include("arm64-v8a")
+            isUniversalApk = false
         }
     }
 
     buildTypes {
         release {
             isMinifyEnabled = false
+
             proguardFiles(
-                getDefaultProguardFile("proguard-android.txt"),
+                getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
         }
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 
-    splits.abi {
-        isEnable = true
-        reset()
-        include("x86", "x86_64", "armeabi-v7a", "arm64-v8a")
-        isUniversalApk = true
-    }
     packaging {
-        jniLibs {
-            useLegacyPackaging = true
-        }
-    }
+        jniLibs.useLegacyPackaging = true
 
+        resources.excludes += setOf(
+            "META-INF/DEPENDENCIES",
+            "META-INF/NOTICE",
+            "META-INF/LICENSE",
+            "META-INF/LICENSE.txt",
+            "META-INF/NOTICE.txt"
+        )
+    }
+}
+
+kotlin {
+    compilerOptions {
+        jvmTarget.set(
+            org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17
+        )
+    }
 }
 
 dependencies {
-    implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
-
+    implementation(project(":scdl"))
     implementation(project(":library"))
     implementation(project(":ffmpeg"))
     implementation(project(":aria2c"))
 
-    implementation("androidx.appcompat:appcompat:${rootProject.extra["appCompatVer"]}")
-    implementation("androidx.constraintlayout:constraintlayout:1.1.3")
-    implementation("androidx.core:core-ktx:${rootProject.extra["coreKtxVer"]}")
-    testImplementation("junit:junit:${rootProject.extra["junitVer"]}")
-    androidTestImplementation("androidx.test.ext:junit:${rootProject.extra["androidJunitVer"]}")
-    androidTestImplementation("androidx.test.espresso:espresso-core:${rootProject.extra["espressoVer"]}")
-
-    implementation("io.reactivex.rxjava2:rxandroid:2.1.0")
-    implementation("com.devbrackets.android:exomedia:5.1.0")
+    implementation("androidx.activity:activity-ktx:1.9.3")
+    implementation("androidx.appcompat:appcompat:1.7.0")
+    implementation("androidx.core:core-ktx:1.13.1")
 }
